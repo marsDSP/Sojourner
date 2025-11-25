@@ -75,12 +75,24 @@ void PluginProcessor::changeProgramName (int index, const juce::String& newName)
     juce::ignoreUnused (index, newName);
 }
 
+void PluginProcessor::parameterChanged(const juce::String& paramID, float newValue)
+{
+}
+
+void PluginProcessor::updateParameters()
+{
+    const auto oversampling_choice = params.oversample->getIndex();
+    if (oversampling_choice >= 0 && static_cast<size_t>(oversampling_choice) < m_process_block.size())
+    {m_process_block[static_cast<size_t>(oversampling_choice)].updateParams(params);}
+}
+
 //==============================================================================
 void PluginProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    juce::ignoreUnused (sampleRate, samplesPerBlock);
+    for (int i {}; i < m_process_block.size(); ++i)
+    {
+        m_process_block[i].prepare(sampleRate, samplesPerBlock, 2, i, params);
+    }
 }
 
 void PluginProcessor::releaseResources()
@@ -115,6 +127,21 @@ void PluginProcessor::processBlock (juce::AudioBuffer<float>& buffer,
                                               juce::MidiBuffer& midiMessages)
 {
     juce::ignoreUnused (midiMessages);
+
+    updateParameters();
+
+    // Ensure the active processing path receives the latest parameter targets
+    // so that its internal Smoothers can drive per-sample values.
+    const auto oversampleChoice = params.oversample->getIndex();
+    if (oversampleChoice >= 0 && static_cast<size_t>(oversampleChoice) < m_process_block.size())
+    {
+        m_process_block[static_cast<size_t>(oversampleChoice)].updateParams(params);
+    }
+
+    juce::ScopedNoDenormals noDenormals;
+
+    if (oversampleChoice >= 0 && static_cast<size_t>(oversampleChoice) < m_process_block.size())
+        m_process_block[static_cast<size_t>(oversampleChoice)].process(buffer, buffer.getNumSamples());
 }
 
 //==============================================================================

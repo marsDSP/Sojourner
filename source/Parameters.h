@@ -5,7 +5,6 @@
 
 #include <Includes.h>
 
-
 namespace MarsDSP {
 
     class Parameters {
@@ -29,6 +28,8 @@ namespace MarsDSP {
         juce::AudioParameterFloat* predelay {nullptr};
         juce::AudioParameterFloat* wetLvl {nullptr};
         juce::AudioParameterBool*  bypass {nullptr};
+
+        juce::AudioParameterChoice* oversample {nullptr};
     };
 }
 

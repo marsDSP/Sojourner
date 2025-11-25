@@ -2,6 +2,9 @@
 
 #include <Includes.h>
 
+inline const juce::ParameterID oversamplingChoiceID { "oversample", 1 };
+static constexpr const char* oversamplingChoiceName = "Oversampling Choice";
+
 inline const juce::ParameterID inputParamID { "input", 1 };
 static constexpr const char* inputParamIDName = "Input";
 
@@ -23,6 +26,11 @@ static constexpr const char* bypassParamIDName = "Bypass";
 inline const juce::StringArray predelaySync
 {
     "1/1", "1/2", "1/4", "1/8", "1/16", "1/32"
+};
+
+inline const juce::StringArray items
+{
+    "OFF", "2x", "4x", "8x", "16x"
 };
 
 static constexpr float minDelayTime = 0.0f;

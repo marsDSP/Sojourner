@@ -4,22 +4,6 @@ PluginEditor::PluginEditor (PluginProcessor& p)
     : AudioProcessorEditor (&p), pref (p)
 {
     juce::ignoreUnused (pref);
-
-    //addAndMakeVisible (inspectButton);
-
-    // this chunk of code instantiates and opens the melatonin inspector
-    //inspectButton.onClick = [&] {
-    //    if (!inspector)
-    //    {
-    //        inspector = std::make_unique<melatonin::Inspector> (*this);
-    //        inspector->onClose = [this]() { inspector.reset(); };
-    //    }
-//
-    //    inspector->setVisible (true);
-    //};
-
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
     setSize (400, 300);
 }
 
@@ -29,20 +13,24 @@ PluginEditor::~PluginEditor()
 
 void PluginEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    //auto area = getLocalBounds();
-    //g.setColour (juce::Colours::white);
-    //g.setFont (16.0f);
-    //auto helloWorld = juce::String ("Hello from ") + PRODUCT_NAME_WITHOUT_VERSION + " v" VERSION + " running in " + CMAKE_BUILD_TYPE;
-    //g.drawText (helloWorld, area.removeFromTop (150), juce::Justification::centred, false);
 }
 
 void PluginEditor::resized()
 {
-    // layout the positions of your child components here
-    //auto area = getLocalBounds();
-    //area.removeFromBottom(50);
-    //inspectButton.setBounds (getLocalBounds().withSizeKeepingCentre(100, 50));
+    const auto padding = juce::roundToInt(getWidth() * 0.03f);
+    const auto width = juce::roundToInt(getWidth() * 0.07f);
+    const auto height = juce::roundToInt(getHeight() * 0.05f);
+
+    const auto x_pos = getWidth() - width - padding;
+    const auto y_pos = padding;
+
+    m_oversampling_menu.setBounds(x_pos, y_pos, width, height);
+}
+
+void PluginEditor::setOversampleMenu(juce::ComboBox& box, const juce::StringArray& items)
+{
+    box.addItemList(items, 1);
+    box.setSelectedId(1, juce::dontSendNotification);
+    addAndMakeVisible(box);
 }

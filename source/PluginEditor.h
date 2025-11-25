@@ -4,7 +4,8 @@
 #include "../modules/melatonin_inspector/melatonin_inspector.h"
 
 //==============================================================================
-class PluginEditor : public juce::AudioProcessorEditor
+class PluginEditor : public juce::AudioProcessorEditor,
+                     private juce::AudioProcessorParameter::Listener
 {
 public:
     explicit PluginEditor (PluginProcessor&);
@@ -19,8 +20,8 @@ private:
     // access the processor object that created it.
     PluginProcessor& pref;
 
-    //std::unique_ptr<melatonin::Inspector> inspector;
-    //juce::TextButton inspectButton { "Inspect the UI" };
+    juce::ComboBox m_oversampling_menu;
+    void setOversampleMenu(juce::ComboBox& box, const juce::StringArray& items);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginEditor)
 };

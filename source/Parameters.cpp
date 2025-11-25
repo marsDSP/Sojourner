@@ -6,8 +6,14 @@ namespace MarsDSP {
 
     Parameters::Parameters(juce::AudioProcessorValueTreeState& vts)
     {
-        castParameter (vts, inputParamID, input);
 
+        castParameter (vts, inputParamID, input);
+        castParameter (vts, regenParamID, regen);
+        castParameter (vts, deRezParamID, deRez);
+        castParameter (vts, predelayParamID, predelay);
+        castParameter (vts, wetLvlParamID, wetLvl);
+        castParameter (vts, bypassParamID, bypass);
+        castParameter (vts, oversamplingChoiceID, oversample);
     }
 
     juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterLayout()
@@ -42,6 +48,11 @@ namespace MarsDSP {
                 {0.0f, 100.0f, 1.0f}, 50.0f,
             juce::AudioParameterFloatAttributes()
             .withStringFromValueFunction(Converter::stringFromPercent)));
+
+        layout.add(std::make_unique<juce::AudioParameterBool>(bypassParamID, bypassParamIDName, false));
+
+        layout.add(std::make_unique<juce::AudioParameterChoice>
+            (oversamplingChoiceID, oversamplingChoiceName, items, 0));
 
         return layout;
 

@@ -80,7 +80,10 @@ add_library(SharedCode INTERFACE
         source/Parameters.cpp
         source/Parameters.h
         source/Globals.h
-        source/Converters.h)
+        source/Converters.h
+        source/DSP/ProcessBlock.h
+        source/DSP/140/Plate140.h
+        source/Smoothers.h)
 
 # Set compile features for SharedCode
 target_compile_features(SharedCode INTERFACE cxx_std_20)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Parameters.h"
+#include "DSP/ProcessBlock.h"
 
 #if (MSVC)
 #include "ipps.h"
@@ -44,6 +45,11 @@ public:
 private:
 
     MarsDSP::Parameters params;
+
+    void parameterChanged(const juce::String& paramID, float newValue);
+    void updateParameters();
+
+    std::array<MarsDSP::DSP::ProcessBlock, 5> m_process_block;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginProcessor)
 };
