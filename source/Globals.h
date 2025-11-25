@@ -14,9 +14,16 @@ static constexpr const char* deRezParamIDName = "DeRez";
 inline const juce::ParameterID predelayParamID { "predelay", 1 };
 static constexpr const char* predelayParamIDName = "Predelay";
 
-inline const juce::ParameterID wetLevelParamID { "wetLvl", 1 };
-static constexpr const char* wetLevelParamIDName = "WetLevel";
+inline const juce::ParameterID wetLvlParamID { "wetLvl", 1 };
+static constexpr const char* wetLvlParamIDName = "WetLevel";
 
 inline const juce::ParameterID bypassParamID { "bypass", 1 };
 static constexpr const char* bypassParamIDName = "Bypass";
 
+inline const juce::StringArray predelaySync
+{
+    "1/1", "1/2", "1/4", "1/8", "1/16", "1/32"
+};
+
+static constexpr float minDelayTime = 0.0f;
+static constexpr float maxDelayTime = 500.0f;
